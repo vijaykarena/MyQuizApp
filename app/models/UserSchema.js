@@ -2,19 +2,24 @@ import mongoose from 'mongoose';
 import { Schema } from 'mongoose';
 
 const userSchema = new Schema({
-  name: {
-    type: String,
-    required: true,
-  },
+
   isLogged: {
     type: Boolean,
     required: true,
   },
-  experience: {
-    type: Number,
+
+  username: {
+    type: String,
     required: true,
-    default: 0,
+    unique: true,
+    trim: true,
+    lowercase: true, 
   },
+  password: {
+    type: String,
+    required: true,
+  },
+  
 });
 
 const User = mongoose.models.User || mongoose.model('User', userSchema);

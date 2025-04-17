@@ -1,30 +1,30 @@
-'use client';
-import React, { useEffect, useState } from 'react';
-import Image from 'next/image';
-import useGlobalContextProvider from '@/app/ContextApi';
-import { v4 as uuidv4 } from 'uuid';
-import { faCode } from '@fortawesome/free-solid-svg-icons';
+"use client";
+import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import useGlobalContextProvider from "@/app/ContextApi";
+import { v4 as uuidv4 } from "uuid";
+import { faCode } from "@fortawesome/free-solid-svg-icons";
 
-import { useRouter } from 'next/navigation';
-import toast, { Toaster } from 'react-hot-toast';
-import convertFromFaToText from '@/app/convertFromFaToText';
-import { icon } from '@fortawesome/fontawesome-svg-core';
+import { useRouter } from "next/navigation";
+import toast, { Toaster } from "react-hot-toast";
+import convertFromFaToText from "@/app/convertFromFaToText";
+import { icon } from "@fortawesome/fontawesome-svg-core";
 
 function validateQuizQuestions(quizQuestions) {
   for (let question of quizQuestions) {
     // Check if the main question is empty
     if (!question.mainQuestion.trim()) {
-      return { valid: false, message: 'Please fill in the main question.' };
+      return { valid: false, message: "Please fill in the main question." };
     }
 
     // Check if any choice is empty
     if (question.choices.some((choice) => !choice.trim().substring(2))) {
-      return { valid: false, message: 'Please fill in all choices.' };
+      return { valid: false, message: "Please fill in all choices." };
     }
 
     // Check if the correct answer is empty
     if (question.correctAnswer.length === 0) {
-      return { valid: false, message: 'Please specify the correct answer.' };
+      return { valid: false, message: "Please specify the correct answer." };
     }
   }
   return { valid: true };
@@ -46,17 +46,18 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
         ...newQuiz,
         icon: textIcon,
       };
-
-      const res = await fetch('http://localhost:3000/api/quizzes', {
-        method: 'POST',
+      const storedToken = localStorage.getItem('authToken');
+      const res = await fetch("http://localhost:3000/api/quizzes", {
+        method: "POST",
         headers: {
-          'Content-type': 'application/json',
+          "Content-type": "application/json",
+          'Authorization': `Bearer ${storedToken}`,
         },
         body: JSON.stringify(quizWithTextIcon), // Adding the new quiz to the db
       });
 
       if (!res.ok) {
-        toast.error('Failed to create a new quiz!');
+        toast.error("Failed to create a new quiz!");
         setIsLoading(false);
         return;
       }
@@ -68,7 +69,7 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
 
       setAllQuizzes([...allQuizzes, updatedQuiz]);
 
-      toast.success('The quiz has been created successfully!');
+      toast.success("The quiz has been created successfully!");
     } catch (error) {
       console.log(error);
     } finally {
@@ -77,8 +78,8 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
   }
 
   async function saveQuiz() {
-    if (newQuiz.quizTitle.trim(' ').length === 0) {
-      return toast.error('Please add a name for the quiz!');
+    if (newQuiz.quizTitle.trim(" ").length === 0) {
+      return toast.error("Please add a name for the quiz!");
     }
 
     const isValid = validateQuizQuestions(newQuiz.quizQuestions);
@@ -90,7 +91,7 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
     if (selectedQuiz) {
       const updatedQuiz = [...allQuizzes]; // Assuming allQuizzes contains the current state of quizzes
       const findIndexQuiz = updatedQuiz.findIndex(
-        (quiz) => quiz._id === newQuiz._id,
+        (quiz) => quiz._id === newQuiz._id
       );
 
       if (findIndexQuiz !== -1) {
@@ -99,15 +100,15 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
       const id = updatedQuiz[findIndexQuiz]._id;
       //
       const convertIconText = convertFromFaToText(
-        updatedQuiz[findIndexQuiz].icon,
+        updatedQuiz[findIndexQuiz].icon
       );
-      console.log(updatedQuiz[findIndexQuiz]);
+      // console.log(updatedQuiz[findIndexQuiz]);
       updatedQuiz[findIndexQuiz].icon = convertIconText;
       try {
         const res = await fetch(`http://localhost:3000/api/quizzes?id=${id}`, {
-          method: 'PUT',
+          method: "PUT",
           headers: {
-            'Content-type': 'application/json',
+            "Content-type": "application/json",
           },
           body: JSON.stringify({
             updateQuiz: updatedQuiz[findIndexQuiz],
@@ -115,21 +116,22 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
         });
 
         if (!res.ok) {
-          throw new Error('Failed to update quiz');
+          throw new Error("Failed to update quiz");
         }
 
-        toast.success('The quiz has been saved successfully.');
+        toast.success("The quiz has been saved successfully.");
         setAllQuizzes(updatedQuiz);
+        router.push("/");
       } catch (error) {}
     } else {
       createNewQuiz();
 
-      router.push('/'); // Navigate to main page
+      router.push("/");
     }
   }
 
   return (
-    <div className="poppins my-12 flex justify-between items-center ">
+    <div className="poppins py-12 flex justify-between items-center ">
       <div className="flex gap-2 items-center">
         <Image src="/quiz-builder-icon.png" alt="" height={50} width={50} />
         <span className="text-2xl">
@@ -142,7 +144,7 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
         }}
         className="p-2 px-4 bg-green-700 rounded-md text-white"
       >
-        {isLoading ? 'Loading...' : 'Save'}
+        {isLoading ? "Loading..." : "Save"}
       </button>
     </div>
   );

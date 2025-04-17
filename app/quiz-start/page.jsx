@@ -8,8 +8,7 @@ import { useRouter } from 'next/navigation';
 import Image from 'next/image';
 
 function Page(props) {
-  const { quizToStartObject, userObject } = useGlobalContextProvider();
-  const { user, setUser } = userObject;
+  const { quizToStartObject } = useGlobalContextProvider();
   const { selectQuizToStart } = quizToStartObject;
   const [parentTimer, setParentTimer] = useState(0);
   const router = useRouter();
@@ -25,7 +24,7 @@ function Page(props) {
   }
 
   return (
-    <div className="relative poppins flex flex-col px-24 mt-[35px] ">
+    <div className="relative poppins flex flex-col px-24 h-screen pt-9 bg-[url('/questionbg.jpg')]">
       {selectQuizToStart === null ? (
         <div className="  h-svh flex flex-col gap-2 items-center justify-center">
           <Image src="/errorIcon.png" alt="" width={180} height={180} />

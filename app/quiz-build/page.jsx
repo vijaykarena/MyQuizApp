@@ -6,7 +6,7 @@ import QuizBuildTitle from '../Components/QuizBuildPage/QuizBuildTitle';
 import QuizBuildQuestions from '../Components/QuizBuildPage/QuizBuildQuestions';
 import { v4 as uuidv4 } from 'uuid';
 import { faCode } from '@fortawesome/free-solid-svg-icons';
-import { Toaster } from 'react-hot-toast';
+import { Toaster, toast } from 'react-hot-toast';
 import IconsComponents from '../Components/QuizBuildPage/IconsComponents';
 import useGlobalContextProvider from '../ContextApi';
 
@@ -15,6 +15,9 @@ function Page(props) {
   const { selectedIconObject, selectedQuizObject } = useGlobalContextProvider();
   const { selectedIcon } = selectedIconObject;
   const { selectedQuiz } = selectedQuizObject;
+  useEffect(() => {
+    console.log("QuizBuildPage: selectedQuiz on load/change:", selectedQuiz?.quizTitle);
+  }, [selectedQuiz]);
   const [focusFirst, setFocusFirst] = useState(true);
 
   const [quizQuestions, setQuizQuestions] = useState(() => {
@@ -51,7 +54,7 @@ function Page(props) {
     }
   });
 
-  console.log(newQuiz);
+  // console.log(newQuiz);
 
   useEffect(() => {
     setNewQuiz((prevQuiz) => ({
@@ -82,8 +85,14 @@ function Page(props) {
     setQuizQuestions,
   };
 
+  // ----------------------------------------
+useEffect(() => {
+  toast.dismiss('deleteQuiz');
+}, [selectedQuiz]);
+  // ----------------------------------------
+
   return (
-    <div className=" relative mx-16 poppins">
+    <div className=" relative px-16 poppins bg-[url('/questionbg.jpg')]">
       <IconsComponents />
       <QuizBuildNav {...quizNavBarProps} />
       <QuizBuildTitle {...quizTitleProps} />

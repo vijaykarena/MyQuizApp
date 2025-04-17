@@ -1,17 +1,11 @@
-'use client';
-import React from 'react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import Image from 'next/image';
-import {
-  faCode,
-  faEllipsis,
-  faPlay,
-  faQuestion,
-} from '@fortawesome/free-solid-svg-icons';
-import Link from 'next/link';
-import useGlobalContextProvider from '../ContextApi';
-import { icon } from '@fortawesome/fontawesome-svg-core';
-import convertToFaIcons from '../convertToFaIcons';
+"use client";
+import React from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Image from "next/image";
+import { faEllipsis, faPlay } from "@fortawesome/free-solid-svg-icons";
+import Link from "next/link";
+import useGlobalContextProvider from "../ContextApi";
+import convertToFaIcons from "../convertToFaIcons";
 
 function successRate(singleQuiz) {
   let correctQuestions = 0;
@@ -35,16 +29,13 @@ function QuizCard({ singleQuiz }) {
     selectedQuizObject,
   } = useGlobalContextProvider();
   const { setDropDownToggle } = dropDownToggleObject;
-  //
   const { setSelectQuizToStart } = quizToStartObject;
   const { setThreeDotsPositions } = threeDotsPositionsObject;
   const { selectedQuiz, setSelectedQuiz } = selectedQuizObject;
-  //
   const { quizTitle, quizQuestions, icon } = singleQuiz;
-
   const totalQuestions = quizQuestions.length;
   const globalSuccessRate = successRate(singleQuiz);
-  //
+  
 
   function openDropDownMenu(event) {
     const xPos = event.clientX;
@@ -62,9 +53,7 @@ function QuizCard({ singleQuiz }) {
 
   return (
     <div className="rounded-[10px] flex flex-col gap-2 border border-gray-300 bg-white p-4">
-      {/* Image Container */}
       <div className="relative bg-green-700 w-full h-32 flex justify-center items-center  rounded-md ">
-        {/* More Options Icon */}
         <div className="absolute cursor-pointer top-3 right-3">
           <FontAwesomeIcon
             className="text-white"
@@ -74,7 +63,6 @@ function QuizCard({ singleQuiz }) {
             onClick={openDropDownMenu}
           />
         </div>
-        {/* Quiz Icon */}
         <FontAwesomeIcon
           className="text-white text-3xl"
           width={120}
@@ -82,17 +70,13 @@ function QuizCard({ singleQuiz }) {
           icon={convertToFaIcons(icon)}
         />
       </div>
-      {/* Title Area */}
       <h3 className="font-bold ">{quizTitle}</h3>
-      {/* Questions */}
       <p className="text-sm font-light">{totalQuestions} question(s)</p>
-      {/* Footer Area */}
       <div className="flex gap-3">
-        {/* success rate area */}
         <div className="flex gap-1 items-center">
           <Image src="/target-777.png" width={20} height={10} alt="" />
           <span className=" text-[12px]">
-            Success rate: {globalSuccessRate}%
+            Success rate: {globalSuccessRate?globalSuccessRate:0}%
           </span>
         </div>
         <div

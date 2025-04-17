@@ -1,4 +1,4 @@
-import mongoose, { Schema } from 'mongoose';
+import mongoose, { Schema } from "mongoose";
 
 const questionSchema = new Schema({
   id: { type: String, required: true },
@@ -14,11 +14,16 @@ const questionSchema = new Schema({
 });
 
 const quizSchema = new mongoose.Schema({
-  icon: { type: String, required: true }, // Assuming you store the icon as a string
+  icon: { type: String, required: true },
   quizTitle: { type: String, required: true },
   quizQuestions: { type: [questionSchema], required: true },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+    required: true,
+  },
 });
 
-const Quiz = mongoose.models.Quiz || mongoose.model('Quiz', quizSchema);
+const Quiz = mongoose.models.Quiz || mongoose.model("Quiz", quizSchema);
 
 export default Quiz;

@@ -40,7 +40,7 @@ function QuizBuildTitle({ focusProp, onChangeQuizTitle }) {
   }, []);
 
   return (
-    <div className="p-3 flex justify-between border border-green-700 rounded-md">
+    <div className="p-3 flex justify-between border border-green-700 rounded-md bg-white">
       <div className="flex gap-2">
         <div className="flex gap-2 items-center">
           <div className="bg-green-700 px-4 py-1 rounded-md text-white">1</div>

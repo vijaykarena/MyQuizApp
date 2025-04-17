@@ -54,7 +54,7 @@ function Choices({
   return (
     <div className=" flex gap-[39px] items-center mt-3">
       <div className="text-[15px]">Choices</div>
-      <div className="border border-gray-200 rounded-md p-4 w-full ">
+      <div className="border border-gray-200 rounded-md p-4 w-full">
         {/* Choices Area */}
         {choices.map((singleChoice, choiceIndex) => (
           <div

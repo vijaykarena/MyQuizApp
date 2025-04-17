@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
-import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import React, { useEffect, useRef, useState } from 'react';
-import toast from 'react-hot-toast';
-import useGlobalContextProvider from '../ContextApi';
-import { useRouter } from 'next/navigation';
+import { faPencil, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, { useEffect, useRef, useState } from "react";
+import toast from "react-hot-toast";
+import useGlobalContextProvider from "../ContextApi";
+import { useRouter } from "next/navigation";
 
 function DropDown(props) {
   const {
@@ -23,8 +23,8 @@ function DropDown(props) {
   const router = useRouter();
 
   const menuItems = [
-    { name: 'Modify', icon: faPencil },
-    { name: 'Delete', icon: faTrash },
+    { name: "Modify", icon: faPencil },
+    { name: "Delete", icon: faTrash },
   ];
 
   useEffect(() => {
@@ -36,10 +36,10 @@ function DropDown(props) {
         setDropDownToggle(false);
       }
     }
-    document.addEventListener('click', handleOutiseClick);
+    document.addEventListener("click", handleOutiseClick);
 
     return () => {
-      document.removeEventListener('click', handleOutiseClick);
+      document.removeEventListener("click", handleOutiseClick);
     };
   }, [dropDownToggle]);
 
@@ -50,35 +50,35 @@ function DropDown(props) {
       }
     });
 
-    console.log(selectedQuiz._id);
+    // console.log(selectedQuiz._id);
 
     const res = await fetch(
       `http://localhost:3000/api/quizzes?id=${selectedQuiz._id}`,
       {
-        method: 'DELETE',
+        method: "DELETE",
         headers: {
-          'Content-Type': 'application/json',
+          "Content-Type": "application/json",
         },
-      },
+      }
     );
 
     if (!res.ok) {
-      toast.error('Error while deleting the quiz');
+      toast.error("Error while deleting the quiz");
       return;
     }
 
     setAllQuizzes(updatedAllQuizzes);
-    toast.success('The Quiz has been deleted successfully.');
+    toast.success("The Quiz has been deleted successfully.");
     setIsDialogOpened(false);
     setSelectedQuiz(null);
   }
 
   function handleClickedItem(menuItem) {
-    if (menuItem.name === 'Modify') {
-      router.push('/quiz-build');
+    if (menuItem.name === "Modify") {
+      router.push("/quiz-build");
     }
 
-    if (menuItem.name === 'Delete') {
+    if (menuItem.name === "Delete") {
       setIsDialogOpened(true);
       toast(
         (t) => (
@@ -90,12 +90,14 @@ function DropDown(props) {
               <button
                 onClick={() => {
                   deleteTheQuiz();
-
                   toast.dismiss(t.id);
+                  // -------------------------------------
+                  setSelectedQuiz(null);
+                  // -------------------------------------
                 }}
                 className="bg-green-700 text-white  p-1 w-[100px] rounded-md
-              "
-              >
+                "
+                >
                 Yes
               </button>
               <button
@@ -103,6 +105,9 @@ function DropDown(props) {
                 rounded-md hover:text-white hover:bg-green-700"
                 onClick={() => {
                   toast.dismiss(t.id);
+                  // -------------------------------------
+                  setSelectedQuiz(null);
+                  // -------------------------------------
                 }}
               >
                 No
@@ -111,9 +116,9 @@ function DropDown(props) {
           </div>
         ),
         {
-          duration: '10000',
-          id: 'deleteQuiz',
-        },
+          duration: "10000",
+          id: "deleteQuiz",
+        }
       );
     }
 
@@ -126,7 +131,7 @@ function DropDown(props) {
       ref={dropDownRef}
       className={`p-4 w-32 fixed z-50 shadow-md flex rounded-lg flex-col gap-3 bg-white 
 poppins poppins-light text-[13px] ${
-        dropDownToggle ? 'visible' : 'invisible'
+        dropDownToggle ? "visible" : "invisible"
       }   `}
     >
       {menuItems.map((menuItem, index) => (

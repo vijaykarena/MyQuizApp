@@ -151,13 +151,13 @@ function QuizBuildQuestions({ focusProp, quizQuestions, setQuizQuestions }) {
 
   return (
     <div className="p-3 mt-6 flex justify-between border border-green-700 rounded-md relative">
-      <Toaster
+      {/* <Toaster
         toastOptions={{
           style: {
             fontSize: '13px',
           },
         }}
-      />
+      /> */}
 
       <div className="flex gap-2 flex-col  w-full">
         {/* Header Area */}

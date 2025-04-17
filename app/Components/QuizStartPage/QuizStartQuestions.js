@@ -4,12 +4,11 @@ import React, { useEffect, useState } from 'react';
 import useGlobalContextProvider from '@/app/ContextApi';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import toast, { Toaster } from 'react-hot-toast';
-import convertFromFaToText from '@/app/convertFromFaToText';
+import toast from 'react-hot-toast';
 
 function QuizStartQuestions({ onUpdateTime }) {
   const time = 30;
-  const { quizToStartObject, allQuizzes, setAllQuizzes, userObject } =
+  const { quizToStartObject, allQuizzes, setAllQuizzes } =
     useGlobalContextProvider();
   const { selectQuizToStart } = quizToStartObject;
   const { quizQuestions } = selectQuizToStart;
@@ -18,7 +17,6 @@ function QuizStartQuestions({ onUpdateTime }) {
   const [indexOfQuizSelected, setIndexOfQuizSelected] = useState(null);
   const [isQuizEnded, setIsQuizEnded] = useState(false);
   const [score, setScore] = useState(0);
-  const { user, setUser } = userObject;
 
   const [timer, setTimer] = useState(time);
   let interval;
@@ -44,7 +42,7 @@ function QuizStartQuestions({ onUpdateTime }) {
       const id = selectQuizToStart._id;
       // Get the _id of the quiz
       const res = await fetch(
-        `http://localhost:3000/api/quizzes?id=${id}`, // Include the id as a query parameter
+        `http://localhost:3000/api/quizzes?id=${id}`, 
         {
           method: 'PUT',
           headers: {
@@ -195,7 +193,7 @@ function QuizStartQuestions({ onUpdateTime }) {
     setScore((prevState) => prevState + 1);
 
     toast.success('Awesome!');
-    addExperience();
+    // addExperience();
 
     // This will stop the timer and end the quiz when currentQuestionIndex is the last
     // and only if we select the correct otherwise the timer is still running
@@ -220,46 +218,9 @@ function QuizStartQuestions({ onUpdateTime }) {
     }, 2000);
   }
 
-  async function addExperience() {
-    const userCopy = user;
-    console.log(userCopy);
-    userCopy.experience += 1;
-
-    try {
-      const response = await fetch(
-        `http://localhost:3000/api/user?id=${userCopy._id}`,
-        {
-          method: 'PUT',
-          headers: {
-            'Content-type': 'application/json',
-          },
-          body: JSON.stringify({ updateUser: userCopy }),
-        },
-      );
-
-      if (!response.ok) {
-        toast.error('Something went wrong...');
-        throw new Error('fetching failed...');
-      }
-
-      setUser(userCopy);
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
   return (
     <div className="relative poppins rounded-sm m-9 w-9/12  ">
-      <Toaster
-        toastOptions={{
-          // Define default options
-          className: '',
-          duration: 1500,
-          style: {
-            padding: '12px',
-          },
-        }}
-      />
+      
       {/* The Question Part */}
       <div className="flex   items-center gap-2">
         <div className="bg-green-700 flex  justify-center items-center rounded-md w-11 h-11 text-white p-3">
@@ -370,7 +331,7 @@ function ScoreComponent({ quizStartParentProps }) {
   }
 
   return (
-    <div className=" flex items-center justify-center rounded-md top-[-100px] border border-gray-200 absolute w-full h-[450px] bg-white">
+    <div className=" flex items-center justify-center rounded-md top-[-100px] border border-gray-200 absolute w-full h-[450px] bg-white shadow-xl">
       {/* Score */}
       <div className=" flex gap-4 items-center justify-center flex-col">
         <Image src={`/${emojiIconScore()}`} alt="" width={100} height={100} />
