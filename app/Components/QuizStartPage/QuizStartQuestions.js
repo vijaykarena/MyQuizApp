@@ -42,7 +42,7 @@ function QuizStartQuestions({ onUpdateTime }) {
       const id = selectQuizToStart._id;
       // Get the _id of the quiz
       const res = await fetch(
-        `http://localhost:3000/api/quizzes?id=${id}`, 
+        `/api/quizzes?id=${id}`, 
         {
           method: 'PUT',
           headers: {
