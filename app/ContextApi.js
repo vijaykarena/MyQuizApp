@@ -72,7 +72,7 @@ export function ContextProvider({ children }) {
     const fetchAllQuizzes = async () => {
       try {
         setLoading(true);
-        const response = await fetch('http://localhost:3000/api/quizzes', {
+        const response = await fetch('/api/quizzes', {
           cache: 'no-cache',
           headers: {
             "Content-type": "application/json",
