@@ -47,7 +47,7 @@ function QuizBuildNav({ newQuiz, setNewQuiz }) {
         icon: textIcon,
       };
       const storedToken = localStorage.getItem('authToken');
-      const res = await fetch("http://localhost:3000/api/quizzes", {
+      const res = await fetch("/api/quizzes", {
         method: "POST",
         headers: {
           "Content-type": "application/json",
